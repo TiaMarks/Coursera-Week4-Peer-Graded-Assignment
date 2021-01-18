@@ -3,9 +3,6 @@
 xtrain <- read.table("X_train.txt", header = F)
 subjtrain <- read.table("subject_train.txt", header = F)
 ytrain <- read.table("y_train.txt", header = F) 
-subjtest <- read.table("subject_test.txt", header = F)
-xtest <- read.table("X_test.txt", header = F)
-ytest <- read.table("y_test.txt", header = F)
 
 # I load the data with the list of features and proceed to rename the columns
 colnames(ytrain) <- "ActivityLabels"
@@ -24,7 +21,7 @@ ytest <- read.table("y_test.txt", header = F)
 test <- cbind(subjtest, ytest, xtest)
 colnames(test) <- c("Subject", "ActivityLabels", features$V2)
 
-#I merge the test and training databases and order it by subject and broke the 
+#I merge the test and training databases and order it by subject and break the 
 # ties by the activity
 data <- rbind(test, training)
 data <- data[order(data$Subject, data$ActivityLabels),]
