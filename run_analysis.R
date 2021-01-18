@@ -1,4 +1,6 @@
-# I download the files from my browser then load the data for the subjects, 
+# I download the files from
+#https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
+# then load the data for the subjects, 
 # the type of activity and the features for the training part of the research
 xtrain <- read.table("X_train.txt", header = F)
 subjtrain <- read.table("subject_train.txt", header = F)
@@ -21,21 +23,21 @@ ytest <- read.table("y_test.txt", header = F)
 test <- cbind(subjtest, ytest, xtest)
 colnames(test) <- c("Subject", "ActivityLabels", features$V2)
 
-#I merge the test and training databases and order it by subject and break the 
+# I merge the test and training databases and order it by subject and break the 
 # ties by the activity
 data <- rbind(test, training)
 data <- data[order(data$Subject, data$ActivityLabels),]
 
-#I want to subset the mean and std columns, I wanna do it by searching for text,
-#but I have to get around the fact that there are some "mean" matches that aren't
-#what I'm looking for, I only want mean() matches, but regular expressions won't
-#match parentheses, so I substitute "(" with an "x" and then look for "meanx"
+# I want to subset the mean and std columns, I wanna do it by searching for text,
+# but I have to get around the fact that there are some "mean" matches that aren't
+# what I'm looking for, I only want mean() matches, but regular expressions won't
+# match parentheses, so I substitute "(" with an "x" and then look for "meanx"
 x <- gsub("\\(","x", colnames(data))
 meanx <- grep("[Mm]eanx", x)
 std <- grep("[Ss]td", colnames(data))
 meanstd <- data[, c(1, 2, meanx, std)]
 
-#I swap the activity labels for the actual activity name and change the
+# I swap the activity labels for the actual activity name and change the
 # name of the column
 labels <- read.table("activity_labels.txt", header=F)
 for (i in unique(data$ActivityLabels)){
